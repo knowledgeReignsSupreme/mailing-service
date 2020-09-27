@@ -1,6 +1,6 @@
 {
   "name": "@greenpress/mailing",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "author": "David Meir-Levy <davidmeirlevy@gmail.com>",
   "description": "manage mailing operations",
@@ -21,7 +21,7 @@
     "greenpress-mailing": "dist/index.js"
   },
   "dependencies": {
-    "@greenpress/api-kit": "0.0.1",
+    "@greenpress/api-kit": "0.1.0",
     "ftp": "^0.3.10",
     "mongoose": "^5.10.5",
     "uniqid": "^5.0.3"
