@@ -14,12 +14,12 @@ export function createProvider(req, res) {
 
   return setSecret(provider.tenant, provider.authentication, body.authentication)
     .then(() => provider.save())
-    .then((storage) => {
+    .then((provider) => {
       res.status(200).json({
-        _id: storage._id,
-        name: storage.name,
-        kind: storage.kind,
-        metadata: storage.metadata
+        _id: provider._id,
+        name: provider.name,
+        kind: provider.kind,
+        metadata: provider.metadata
       }).end()
     })
     .catch((err) => {
@@ -43,7 +43,7 @@ export function getProvidersList(req, res) {
 }
 
 export function removeProvider(req, res) {
-  req.storage.remove()
+  req.provider.remove()
     .then(() => res.status(200).json({}).end())
     .catch(() => res.status(400).json({ message: 'failed to remove email provider' }).end())
 }
@@ -62,7 +62,7 @@ export function updateProvider(req, res) {
     req.provider.metadata = body.metadata
   }
   promise
-    .then(() => req.storage.save())
+    .then(() => req.provider.save())
     .then(() => res.status(200).json({
       name: req.provider.name,
       kind: req.provider.kind,
@@ -81,6 +81,6 @@ export function getProviderById(req, res, next) {
 }
 
 export function getProvider(req, res) {
-  const { _id, name, kind, metadata } = req.storage
+  const { _id, name, kind, metadata } = req.provider
   res.status(200).json({ _id, name, kind, metadata }).end()
 }
