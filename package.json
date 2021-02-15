@@ -21,8 +21,7 @@
     "greenpress-mailing": "dist/index.js"
   },
   "dependencies": {
-    "@greenpress/api-kit": "0.1.0",
-    "ftp": "^0.3.10",
+    "@greenpress/api-kit": "^0.1.1",
     "mongoose": "^5.10.5",
     "uniqid": "^5.0.3"
   },
