@@ -1,4 +1,4 @@
-import mongoose, {Document} from 'mongoose'
+import mongoose, { Document } from 'mongoose'
 
 export interface IEmailProvider extends Document {
   tenant: string;
@@ -15,7 +15,7 @@ const EmailProviderSchema = new mongoose.Schema<IEmailProvider>({
   tenant: {
     type: String,
     index: true,
-    required: true,
+    required: true
   },
   kind: {
     type: String,
@@ -31,7 +31,7 @@ const EmailProviderSchema = new mongoose.Schema<IEmailProvider>({
       type: String,
       required: true,
       validate: (from) => from && from.includes('@')
-    },
+    }
   },
   authentication: String
 })

@@ -5,7 +5,7 @@ const EmailTemplateSchema = new mongoose.Schema({
   tenant: {
     type: String,
     index: true,
-    required: true,
+    required: true
   },
   name: {
     type: String,
