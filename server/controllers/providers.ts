@@ -1,6 +1,6 @@
-import uniqid from 'uniqid';
-import EmailProvider from '../models/email-provider';
-import {setSecret} from '../../helpers/secrets-management';
+import uniqid from 'uniqid'
+import EmailProvider from '../models/email-provider'
+import { setSecret } from '../../helpers/secrets-management'
 
 export function createProvider(req, res) {
   const body = req.body || {}
@@ -9,6 +9,7 @@ export function createProvider(req, res) {
     name: body.name,
     kind: body.kind,
     metadata: body.metadata,
+    access: body.access || { predefinedPublic: false },
     authentication: uniqid()
   })
 
@@ -23,7 +24,7 @@ export function createProvider(req, res) {
       }).end()
     })
     .catch((err) => {
-      res.status(400).json({ message: 'email provider creation failed' }).end()
+      res.status(500).json({ message: 'email provider creation failed' }).end()
     })
 }
 
@@ -38,14 +39,14 @@ export function getProvidersList(req, res) {
       res.status(200).json(list).end()
     })
     .catch(() => {
-      res.status(400).json({ message: 'error loading email providers list' }).end()
+      res.status(500).json({ message: 'error loading email providers list' }).end()
     })
 }
 
 export function removeProvider(req, res) {
   req.provider.remove()
     .then(() => res.status(200).json({}).end())
-    .catch(() => res.status(400).json({ message: 'failed to remove email provider' }).end())
+    .catch(() => res.status(500).json({ message: 'failed to remove email provider' }).end())
 }
 
 export function updateProvider(req, res) {
@@ -61,6 +62,9 @@ export function updateProvider(req, res) {
   if (body.metadata) {
     req.provider.metadata = body.metadata
   }
+  if (body.access) {
+    req.provider.access = body.access
+  }
   promise
     .then(() => req.provider.save())
     .then(() => res.status(200).json({
@@ -68,7 +72,7 @@ export function updateProvider(req, res) {
       kind: req.provider.kind,
       metadata: req.provider.metadata
     }).end())
-    .catch(() => res.status(400).json({ message: 'failed to update email provider' }).end())
+    .catch(() => res.status(500).json({ message: 'failed to update email provider' }).end())
 }
 
 export function getProviderById(req, res, next) {
@@ -77,7 +81,7 @@ export function getProviderById(req, res, next) {
       req.provider = provider
       next()
     })
-    .catch(() => res.status(404).json({ message: 'could not find email provider' }).end())
+    .catch(() => res.status(500).json({ message: 'could not find email provider' }).end())
 }
 
 export function getProvider(req, res) {

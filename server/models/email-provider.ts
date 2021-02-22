@@ -26,6 +26,12 @@ const EmailProviderSchema = new mongoose.Schema<IEmailProvider>({
     type: String,
     required: true
   },
+  access: {
+    predefinedPublic: {
+      type: Boolean,
+      default: false
+    },
+  },
   metadata: {
     from: {
       type: String,

@@ -12,7 +12,7 @@
     "node": ">=10.5"
   },
   "scripts": {
-    "prepublish": "tsc",
+    "prepublishOnly": "tsc",
     "postinstall": "tsc",
     "start": "node --use_strict dist/index.js"
   },

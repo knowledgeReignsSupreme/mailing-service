@@ -19,6 +19,7 @@ const EmailTemplateSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  predefinedPublicVariables: [String],
   authentication: String
 })
 
