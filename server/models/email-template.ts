@@ -5,7 +5,7 @@ const EmailTemplateSchema = new mongoose.Schema({
   tenant: {
     type: String,
     index: true,
-    required: [true, "Please include tenant"],
+    required: true,
   },
   name: {
     type: String,
@@ -20,7 +20,6 @@ const EmailTemplateSchema = new mongoose.Schema({
     required: [true, "Please write content"],
   },
   predefinedPublicVariables: [String],
-  authentication: String,
 });
 
 export default mongoose.model("EmailTemplate", EmailTemplateSchema);

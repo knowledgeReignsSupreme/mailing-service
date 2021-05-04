@@ -3,24 +3,20 @@ import EmailTemplate from "../models/email-template";
 
 export async function createTemplate(req, res) {
   const body = req.body || {};
-  const { name, subject, content } = body;
+  const { name, subject, content, predefinedPublicVariables } = body;
 
   const template = new EmailTemplate({
     tenant: req.headers.tenant,
     name,
     subject,
     content,
+    predefinedPublicVariables,
   });
 
   try {
     await template.save();
 
-    res.status(201).json({
-      _id: template._id,
-      name: template.name,
-      subject: template.subject,
-      content: template.content,
-    });
+    return templateJsonResponse(template, 200, res);
   } catch (error) {
     res.status(500).json({ message: "email template creation failed" });
   }
@@ -51,14 +47,7 @@ export async function removeTemplate(req, res) {
 }
 
 export function getTemplate(req, res) {
-  const { _id, name, subject, content } = req?.template;
-
-  res.status(200).json({
-    _id,
-    name,
-    subject,
-    content,
-  });
+  return templateJsonResponse(req.template, 200, res);
 }
 
 export async function getTemplateById(req, res, next) {
@@ -74,4 +63,16 @@ export async function getTemplateById(req, res, next) {
   } catch (error) {
     return res.status(500).json({ message: "could not find email template" });
   }
+}
+
+function templateJsonResponse(templateData, status, res) {
+  const { _id, name, subject, content, predefinedPublicVariables } = templateData;
+
+  return res.status((status = 200)).json({
+    _id,
+    name,
+    subject,
+    content,
+    predefinedPublicVariables,
+  });
 }
