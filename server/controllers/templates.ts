@@ -1,4 +1,3 @@
-import uniqid from "uniqid";
 import EmailTemplate from "../models/email-template";
 
 export async function createTemplate(req, res) {
@@ -16,7 +15,7 @@ export async function createTemplate(req, res) {
   try {
     await template.save();
 
-    return templateJsonResponse(template, 200, res);
+    return res.status(201).json(templateMapper(template));
   } catch (error) {
     res.status(500).json({ message: "email template creation failed" });
   }
@@ -47,7 +46,9 @@ export async function removeTemplate(req, res) {
 }
 
 export function getTemplate(req, res) {
-  return templateJsonResponse(req.template, 200, res);
+  const template = req.template;
+
+  return res.status(200).json(templateMapper(template));
 }
 
 export async function getTemplateById(req, res, next) {
@@ -75,4 +76,15 @@ function templateJsonResponse(templateData, status, res) {
     content,
     predefinedPublicVariables,
   });
+}
+
+function templateMapper(template) {
+  const { _id, name, subject, content, predefinedPublicVariables } = template;
+  return {
+    _id,
+    name,
+    subject,
+    content,
+    predefinedPublicVariables,
+  };
 }
