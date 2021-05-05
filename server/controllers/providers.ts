@@ -55,14 +55,15 @@ export async function removeProvider(req, res) {
 
 export async function updateProvider(req, res) {
   const body = req.body || {};
-  let newSecretSetter;
+  let shouldUpdateSecret;
 
   if (body.name && body.name !== req.provider.name) {
     req.provider.name = body.name;
   }
   if ((body.kind && body.kind !== req.provider.kind) || body.authentication) {
     req.provider.kind = body.kind || req.provider.kind;
-    newSecretSetter = newSecretSetter(req.provider.tenant, req.provider.authentication, body.authentication);
+
+    shouldUpdateSecret = true;
   }
   if (body.metadata) {
     req.provider.metadata = body.metadata;
@@ -72,8 +73,8 @@ export async function updateProvider(req, res) {
   }
 
   try {
-    if (newSecretSetter) {
-      await newSecretSetter();
+    if (shouldUpdateSecret) {
+      await setSecret(req.provider.tenant, req.provider.authentication, body.authentication);
     }
 
     const updatedProvider = await req.provider.save();
