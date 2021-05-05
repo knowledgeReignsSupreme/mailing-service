@@ -66,18 +66,6 @@ export async function getTemplateById(req, res, next) {
   }
 }
 
-function templateJsonResponse(templateData, status, res) {
-  const { _id, name, subject, content, predefinedPublicVariables } = templateData;
-
-  return res.status((status = 200)).json({
-    _id,
-    name,
-    subject,
-    content,
-    predefinedPublicVariables,
-  });
-}
-
 function templateMapper(template) {
   const { _id, name, subject, content, predefinedPublicVariables } = template;
   return {
