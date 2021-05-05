@@ -53,7 +53,7 @@ export function getTemplate(req, res) {
 
 export async function getTemplateById(req, res, next) {
   try {
-    const template = EmailTemplate.findOne({ _id: req.params.templateId });
+    const template = EmailTemplate.findOne({ _id: req.params.templateId, tenant: req.headers.tenant });
 
     if (!template) {
       return res.status(404).json({ message: "Template not found." });
